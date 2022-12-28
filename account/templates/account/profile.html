@@ -1,0 +1,1055 @@
+{% extends 'base_profile.html' %}
+{% load static %}
+{% block third_css %}
+    <link rel="stylesheet" href="{% static 'account/css/profile.css' %}">
+{% endblock %}
+{% block body %}
+    <!----------------------------------navbar-->
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light" id="navbar-top">
+
+        <div class="container-fluid">
+
+            <div class="d-flex align-items-center">
+                {#                <a href="#" class="navbar-brand display-2 fw-bold text-dark">پنل کاربری</a>#}
+                {#                <i class="bi bi-justify text-dark mr-3 d-lg-flex d-none h4 mt-1" style="cursor:#}
+                {#        pointer;" data-bs-toggle="collapse" data-bs-target="#sidebar"></i>#}
+                <button class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
+                    <i class="bi bi-justify text-white h4"></i>
+                </button>
+            </div>
+
+            {#            <button class="navbar-toggler text-dark" type="button" data-bs-toggle="collapse"#}
+            {#                    data-bs-target="#navbarNav" aria-controls="navbarNav"#}
+            {#                    aria-expanded="false"#}
+            {#                    aria-label="Toggle navigation">#}
+            {#                <i class="bi bi-list"></i>#}
+            {#            </button>#}
+            {##}
+            {#            <div class="collapse navbar-collapse mr-3 d-lg-flex#}
+            {#      justify-content-lg-between"#}
+            {#                 id="navbarNav">#}
+            {#                <!------sidebar items-->#}
+            {#                <ul class="navbar-nav d-lg-none d-flex">#}
+            {#                    <li class="nav-item"><a href="{% url 'account:profile' %}" class="nav-link text-dark">#}
+            {#                        <i class="bi bi-speedometer2 text-primary"></i>#}
+            {#                        داشبورد#}
+            {#                    </a></li>#}
+            {#                    <li class="nav-item my-1"><a id="wallet-btn" class="nav-link text-dark" style="cursor: pointer;">#}
+            {#                        <i class="bi bi-wallet2 me-2"></i>#}
+            {#                        کیف ووچر#}
+            {#                    </a></li>#}
+            {#                    <li class="nav-item my-1"><a id="buysell-l" href="#" class="nav-link text-dark">#}
+            {#                        <i class="bi me-2 bi-cart4 text-success"></i>#}
+            {#                        خرید و فروش#}
+            {#                    </a></li>#}
+            {#                    <li class="nav-item my-1"><a href="#submenu1" class="nav-link collapsed text-dark"#}
+            {#                                                 data-bs-toggle="collapse">#}
+            {#                        <i class="bi me-2 bi-bag text-primary"></i>#}
+            {#                        تاریخچه خرید#}
+            {#                        <i class="bi bi-arrow-left-short float-end"></i>#}
+            {#                    </a>#}
+            {#                        <div class="collapse rounded" id="submenu1">#}
+            {#                            <ul class="nav d-flex flex-column">#}
+            {#                                <li class="nav-item"><a id="buy-his" href="#" class="nav-link text-dark ">خرید</a>#}
+            {#                                </li>#}
+            {#                                <li class="nav-item"><a id="sell-his" href="#" class="nav-link text-dark">فروش</a>#}
+            {#                                </li>#}
+            {#                            </ul>#}
+            {#                        </div>#}
+            {#                    </li>#}
+            {#                    <li class="nav-item my-1"><a href="#ticket-show-div" class="nav-link text-dark">#}
+            {#                        <i class="bi me-2 bi-chat-right-text-fill text-info"></i>#}
+            {#                        تیکت ها#}
+            {#                    </a></li>#}
+            {#                    <li class="nav-item my-1"><a id="send-ticket" class="nav-link text-dark">#}
+            {#                        <i class="bi me-2 bi-send-check-fill text-warning"></i>#}
+            {#                        ارسال تیکت#}
+            {#                    </a></li>#}
+            {#                    <li class="nav-item my-1"><a href="#submenu2" class="nav-link collapsed text-dark"#}
+            {#                                                 data-bs-toggle="collapse">#}
+            {#                        <i class="bi me-2 bi-gear"></i>#}
+            {#                        تنظیمات#}
+            {#                    </a>#}
+            {#                        <div class="collapse rounded" id="submenu2">#}
+            {#                            <ul>#}
+            {#                                <li class="nav-link"><a class="text-danger" style="text-decoration-line: none;"#}
+            {#                                                        href="{% url 'account:password_reset_1' %}">تغییر پسورد</a></li>#}
+            {#                            </ul>#}
+            {#                        </div>#}
+            {#                    </li>#}
+            {##}
+            {#                </ul>#}
+            <!------end sidebar items-->
+
+            <ul class="navbar-nav align-items-center ms-auto d-none d-lg-flex">
+                <li class="nav-item dropdown"><a href="#"
+                                                 class="nav-link"
+                                                 data-bs-toggle="dropdown">
+                    <span class="badge badge-pill bg-danger">{{ notification.count }}</span>
+                    <i class="bi bi-bell text-dark" onclick="notification_read()"></i>
+                    <div class="dropdown-menu dropdown-menu-end text-right">
+                        <div class="dropdown-header text-center bg-light">شما 5 اعلان
+                            دارید
+                        </div>
+                        {% for notifications in notification %}
+                            <a href="" class="dropdown-item text-secondary">
+                                {{ notifications.notification }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </a></li>
+                <li class="nav-item dropdown"><a href="#" class="nav-link"
+                                                 data-bs-toggle="dropdown">
+                    <i class="bi bi-person-circle text-dark h4"></i>
+                    <div class="dropdown-menu dropdown-menu-end text-right">
+                        <div class="dropdown-header text-center bg-light">{{ profile.user.username }}
+                        </div>
+                        <a href="{% url 'account:password_reset_1' %}"
+                           class="dropdown-item text-secondary">تغییر
+                            پسورد</a>
+                        <a href="{% url 'account:logout' %}" class="dropdown-item text-danger">خروج از
+                            حساب
+                            کاربری</a>
+                    </div>
+                </a></li>
+            </ul>
+        </div>
+        </div>
+    </nav>
+    <!-----------------------------------navbar End-->
+    <!---------------------------------sidebar-->
+    <div id="main-container" class="container-fluid p-4">
+        <div class="row">
+            {#            <div id="sidebar" class="collapse col-5 col-sm-4 col-md-2 d-xl-flex d-none show mt-4#}
+            {#      position-fixed py-4">#}
+            {#                <ul class="list-group list-group-flush w-100 mh-100" style="overflow: hidden;">#}
+            {#                    <li class="list-group-item py-4">#}
+            {#                        <div class="hstack gap-3">#}
+            {#                            <div><i class="bi bi-speedometer2 me-2 h4"></i></div>#}
+            {#                            <div><a href="{% url 'account:profile' %}" class="nav-link"><span class="h5">داشبورد</span></a></div>#}
+            {#                        </div>#}
+            {#                    </li>#}
+            {#                    <li class="list-group-item py-4">#}
+            {#                        <div class="hstack gap-3">#}
+            {#                            <div><i class="bi bi-wallet2 me-2 h4"></i></div>#}
+            {#                            <div><a id="wallet-btn" href="#voucher-wallet-div" class="nav-link"><span class="h5">کیف ووچر</span></a></div>#}
+            {#                        </div>#}
+            {#                    </li>#}
+            {#                    <li class="list-group-item py-4">#}
+            {#                        <div class="hstack gap-3">#}
+            {#                            <div><i class="bi me-2 bi-cart4 h4"></i></div>#}
+            {#                            <div><a id="buysell-l" href="#" class="nav-link"><span class="h5">خرید و فروش</span></a></div>#}
+            {#                        </div>#}
+            {#                    </li>#}
+            {#                    <li class="list-group-item py-4">#}
+            {#                        <div class="hstack gap-3">#}
+            {#                            <div><i class="bi me-2 bi-bag h4"></i></div>#}
+            {#                            <div><a id="buy-his" href="#" class="nav-link"><span class="h5">تاریخچه خرید</span></a>#}
+            {#                            </div>#}
+            {#                        </div>#}
+            {#                    </li>#}
+            {#                    <li class="list-group-item py-4">#}
+            {#                        <div class="hstack gap-3">#}
+            {#                            <div><i class="bi me-2 bi-chat-right-text-fill h4"></i></div>#}
+            {#                            <div><a href="#ticket-show-div" id="send-ticket" class="nav-link"><span class="h5">تیکت ها</span></a>#}
+            {#                            </div>#}
+            {#                        </div>#}
+            {#                    </li>#}
+            {#                    <li class="list-group-item py-4">#}
+            {#                        <div class="hstack gap-3">#}
+            {#                            <div><i class="bi me-2 bi-send-check-fill h4"></i></div>#}
+            {#                            <div><a href="#ticket-form-div" id="send-ticket" class="nav-link"><span class="h5">ارسال تیکت</span></a>#}
+            {#                            </div>#}
+            {#                        </div>#}
+            {#                    </li>#}
+            {#                    <li class="list-group-item py-4">#}
+            {#                        <div class="hstack gap-3">#}
+            {#                            <div><i class="bi me-2 bi-gear h4"></i></div>#}
+            {#                            <div><a href="#submenu2" class="nav-link collapsed" data-bs-toggle="collapse"><span class="h5">تنظیمات</span></a>#}
+            {#                                <div class="collapse rounded" id="submenu2">#}
+            {#                                    <ul class="list-group list-group-flush w-auto h-auto">#}
+            {#                                        <li class="list-group-item"><a style="text-decoration-line: none;"#}
+            {#                                                                       href="{% url 'account:password_reset_1' %}">تغییر پسورد</a></li>#}
+            {#                                    </ul>#}
+            {#                                </div>#}
+            {#                            </div>#}
+            {#                        </div>#}
+            {#                    </li>#}
+            {#                </ul>#}
+            {#                <div>#}
+            {#                    <hr class="text-white">#}
+            {#                    <ul class="nav d-flex justify-content-center">#}
+            {#                        <li class="nav-item">#}
+            {#                            <i class="bi bi-person-circle text-danger h4"></i>#}
+            {#                            <a class="ms-2" href="{% url 'account:logout' %}" style="text-decoration-line: none;">#}
+            {#                                <span>خروج از حساب</span>#}
+            {#                            </a>#}
+            {#                        </li>#}
+            {#                    </ul>#}
+            {#                </div>#}
+            {#            </div>#}
+
+            <div class="offcanvas offcanvas-start col-5 col-sm-4 col-md-2" data-bs-scroll="false" data-bs-backdrop="true" tabindex="-1" id="offcanvasScrolling"
+                 aria-labelledby="offcanvasScrollingLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasLabel">منوی کاربری</h5>
+                    <button id="nav-bar-close-btn" type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <h5><span class="fw-bold">مشتی پی</span></h5>
+                    <hr>
+                    <ul class="nav nav-pills flex-column mb-auto">
+                        <li class="nav-item">
+                            <a href="{% url 'account:profile' %}" class="nav-link active">
+                                <i class="bi bi-house"></i>
+                                &nbsp;&nbsp; داشبورد
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="wallet-btn" href="#" class="nav-link link-dark">
+                                <i class="bi bi-wallet2"></i>
+                                &nbsp;&nbsp;کیف ووچر
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="buysell-l" href="#" class="nav-link link-dark">
+                                <i class="bi bi-cart"></i>
+                                &nbsp;&nbsp; خرید و فروش
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="buy-his" href="#" class="nav-link link-dark">
+                                <i class="bi bi-bag"></i>
+                                &nbsp;&nbsp; تاریخچه خرید
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="send-ticket" href="#" class="nav-link link-dark">
+                                <i class="bi bi-chat-right-text-fill"></i>
+                                &nbsp;&nbsp; تیکت ها
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="send-ticket" href="#" class="nav-link link-dark">
+                                <i class="bi bi-send-check-fill"></i>
+                                &nbsp;&nbsp; ارسال تیکت
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#setting-sub" data-bs-toggle="collapse" class="nav-link link-dark">
+                                <i class="bi bi-gear"></i>
+                                &nbsp;&nbsp; تنظیمات
+                            </a>
+                            <div class="collapse" id="setting-sub">
+                                <ul class="nav nav-pills flex-column mb-auto">
+                                    <li class="nav-item">
+                                        <a class="nav-link link-dark" href="{% url 'account:password_reset_1' %}">تغییر پسورد</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                    <hr>
+                </div>
+            </div>
+            <!----------------------End Sidebar-->
+
+            <!-------------main content-->
+            <div id="main-content" class="col-12 p-4 ms-auto">
+                <div class="row row-cols-4">
+                    <div class="col-12 col-12 col-lg-3">
+                        <div class="card mb-3 border-0 " style="background: #ffffff">
+                            <div class="bg-card" style="background-image: url(/media/home/corner-1.png)"></div>
+                            <div class="card-body">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
+                                     class="bi bi-database-fill-gear float-end" style="color: #F4DB7D"
+                                     viewBox="0 0 16 16">
+                                    <path d="M8 1c-1.573 0-3.022.289-4.096.777C2.875 2.245 2 2.993 2 4s.875 1.755 1.904 2.223C4.978 6.711 6.427 7 8 7s3.022-.289 4.096-.777C13.125 5.755 14 5.007 14 4s-.875-1.755-1.904-2.223C11.022 1.289 9.573 1 8 1Z"></path>
+                                    <path d="M2 7v-.839c.457.432 1.004.751 1.49.972C4.722 7.693 6.318 8 8 8s3.278-.307 4.51-.867c.486-.22 1.033-.54 1.49-.972V7c0 .424-.155.802-.411 1.133a4.51 4.51 0 0 0-4.815 1.843A12.31 12.31 0 0 1 8 10c-1.573 0-3.022-.289-4.096-.777C2.875 8.755 2 8.007 2 7Zm6.257 3.998L8 11c-1.682 0-3.278-.307-4.51-.867-.486-.22-1.033-.54-1.49-.972V10c0 1.007.875 1.755 1.904 2.223C4.978 12.711 6.427 13 8 13h.027a4.552 4.552 0 0 1 .23-2.002Zm-.002 3L8 14c-1.682 0-3.278-.307-4.51-.867-.486-.22-1.033-.54-1.49-.972V13c0 1.007.875 1.755 1.904 2.223C4.978 15.711 6.427 16 8 16c.536 0 1.058-.034 1.555-.097a4.507 4.507 0 0 1-1.3-1.905Zm3.631-4.538c.18-.613 1.048-.613 1.229 0l.043.148a.64.64 0 0 0 .921.382l.136-.074c.561-.306 1.175.308.87.869l-.075.136a.64.64 0 0 0 .382.92l.149.045c.612.18.612 1.048 0 1.229l-.15.043a.64.64 0 0 0-.38.921l.074.136c.305.561-.309 1.175-.87.87l-.136-.075a.64.64 0 0 0-.92.382l-.045.149c-.18.612-1.048.612-1.229 0l-.043-.15a.64.64 0 0 0-.921-.38l-.136.074c-.561.305-1.175-.309-.87-.87l.075-.136a.64.64 0 0 0-.382-.92l-.148-.045c-.613-.18-.613-1.048 0-1.229l.148-.043a.64.64 0 0 0 .382-.921l-.074-.136c-.306-.561.308-1.175.869-.87l.136.075a.64.64 0 0 0 .92-.382l.045-.148ZM14 12.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0Z"></path>
+                                </svg>
+                                <h5 class="card-title text-dark">{{ profile.buy_sum }}</h5>
+                                <p class="card-text text-dark">مجموع خرید ها</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-12 col-lg-3">
+                        <div class="card text-white mb-3 border-0" style="background-color: #ffffff;">
+                            <div class="bg-card" style="background-image: url(/media/home/corner-1.png)"></div>
+                            <div class="card-body">
+                                <i class="bi bi-bag-plus-fill float-end h1" style="color: #FF6A3D"></i>
+                                <h5 class="card-title text-dark">{{ profile.sell_sum }}</h5>
+                                <p class="card-text text-dark">مجموع فروش ها</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-12 col-lg-3">
+                        <div class="card text-white mb-3 border-0" style="background-color: #ffffff;">
+                            <div class="bg-card" style="background-image: url(/media/home/corner-1.png)"></div>
+                            <div class="card-body ">
+                                <i class="bi bi-layers-half float-end h1" style="color: #9DAAF2"></i>
+                                <h5 class="card-title text-dark">{{ profile.ticket_sum }}</h5>
+                                <p class="card-text text-dark">تیکت ها</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-12 col-lg-3">
+                        <div class="card text-white mb-3 border-0" style="background-color: #ffffff;">
+                            <div class="bg-card" style="background-image: url(/media/home/corner-1.png)"></div>
+                            <div class="card-body">
+                                <i class="bi bi-eye-fill float-end h1" style="color: #1A2238"></i>
+                                <h5 class="card-title text-dark">
+                                    {% if profile.vip_user == True %}
+                                        اهزار شده
+                                    {% else %}
+                                        احراز نشده
+                                    {% endif %}
+                                </h5>
+                                <p class="card-text text-dark">وضعیت احراز هویت</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!------------- dashboard ------------->
+
+                <!---- ticket form-------->
+                <div class="row" id="ticket-form-div" style="display: none;">
+                    <div class="col-12">
+                        <div class="card my-3 shadow-sm">
+                            <div class="card-body">
+                                <form method="post" action="{% url 'account:ticket_send' %}">
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                        <label for="exampleFormControlInput1" class="form-label">موضوع</label>
+                                        <input type="text" class="form-control" name="title"
+                                               id="exampleFormControlInput1"
+                                               placeholder="موضوع تیکت"
+                                               style="direction: rtl">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="exampleFormControlTextarea1" class="form-label">متن تیکت</label>
+                                        <textarea class="form-control" name="body" id="exampleFormControlTextarea1"
+                                                  rows="8"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <button type="submit" class="btn text-white"
+                                                style="border-radius: 15px; background-color: #2c698d;">ثبت
+                                            تیکت
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!---- end ticket form-------->
+
+                <!-------- voucher wallet------>
+                <div class="row" id="voucher-wallet-div" style="display: none;">
+                    <div class="col-12">
+                        <div class="card shadow-sm my-3">
+                            <div class="card-body">
+                                <table id="voucherWalletDataTable" class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">کد ووچر</th>
+                                        <th scope="col">کد فعال سازی</th>
+                                        <th scope="col">تاریخ</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for wallets in voucher_wallet %}
+                                        <tr>
+                                            <th scope="row">{{ forloop.counter }}</th>
+                                            <td class="table-active">{{ wallets.e_voucher }}</td>
+                                            <td>{{ wallets.activation_code }}</td>
+                                            <td>{{ wallets.created_at }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-------- end voucher wallet------>
+
+                <!---- buy sell history-------->
+                <div class="row" id="buy-sell-history" style="display: none;">
+                    <div class="col-12">
+                        <div class="card my-3 shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-center">
+                                    <div class="btn-group" role="group" aria-label="Basic radio
+                  toggle button group">
+                                        <input type="radio" class="btn-check" name="btnradio"
+                                               id="buy-1" autocomplete="off" checked data-bs-toggle="collapse"
+                                               data-bs-target="#buy-history">
+                                        <label class="btn btn-outline-primary" for="buy-1">خرید ها</label>
+                                        <input type="radio" class="btn-check" name="btnradio"
+                                               id="sell-1" autocomplete="off" data-bs-toggle="collapse"
+                                               data-bs-target="#sell-history">
+                                        <label class="btn btn-outline-primary" for="sell-1">فروش ها</label>
+                                    </div>
+                                </div>
+                                <div class="collapse show" id="buy-history">
+                                    <table id="buy_table" class="table table-striped">
+                                        <thead class="bg-light">
+                                        <tr>
+                                            <th scope="col" class="text-center">#</th>
+                                            <th scope="col" class="text-center">نوع</th>
+                                            <th scope="col" class="text-center">مبلغ</th>
+                                            <th scope="col" class="text-center">وضعیت</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for orders in order_buy %}
+                                            <tr>
+                                                <th scope="row">{{ forloop.counter }}</th>
+                                                <td>خرید</td>
+                                                <td>{{ orders.total_price }}</td>
+                                                <td>
+                                                    {% if orders.paid %}
+                                                        <span>موفق</span>
+                                                    {% else %}
+                                                        <span>ناموفق</span>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    {#                                    <div class="d-flex justify-content-center">#}
+                                    {#                                        <nav aria-label="Page navigation example" style="direction: ltr">#}
+                                    {#                                            <ul class="pagination">#}
+                                    {#                                                {% if order_buy.has_previous %}#}
+                                    {#                                                    <li class="page-item"><a class="page-link text-white"#}
+                                    {#                                                                             style="background-color: #2c698d;"#}
+                                    {#                                                                             href="?page_buy={{ order_buy.previous_page_number }}">قبلی</a>#}
+                                    {#                                                    </li>#}
+                                    {#                                                    <li class="page-item"><a class="page-link text-white"#}
+                                    {#                                                                             style="background-color: #2c698d;"#}
+                                    {#                                                                             href="?page_buy={{ order_buy.previous_page_number }}">#}
+                                    {#                                                        {{ order_buy.previous_page_number }}</a>#}
+                                    {#                                                    </li>#}
+                                    {#                                                {% endif %}#}
+                                    {##}
+                                    {#                                                <li class="page-item {% if page_num == page_num %} active{% endif %}"><a#}
+                                    {#                                                        class="page-link text-white" style="background-color: #2c698d;"#}
+                                    {#                                                        href="?page={{ order_buy.number }}">{{ order_buy.number }}</a>#}
+                                    {#                                                </li>#}
+                                    {#                                                {% if order_buy.has_next %}#}
+                                    {#                                                    <li class="page-item"><a class="page-link text-white"#}
+                                    {#                                                                             style="background-color: #2c698d;"#}
+                                    {#                                                                             onclick="buy_history_ajax({{ order_buy.next_page_number }})">#}
+                                    {#                                                        {{ order_buy.next_page_number }}</a>#}
+                                    {#                                                    </li>#}
+                                    {#                                                    <li class="page-item"><a class="page-link text-white"#}
+                                    {#                                                                             style="background-color: #2c698d;"#}
+                                    {#                                                                             href="?page_buy={{ order_buy.next_page_number }}">بعدی</a>#}
+                                    {#                                                    </li>#}
+                                    {##}
+                                    {#                                                {% endif %}#}
+                                    {#                                            </ul>#}
+                                    {#                                        </nav>#}
+                                    {#                                    </div>#}
+                                </div>
+                                <div class="collapse" id="sell-history">
+                                    <table id="sell_table" class="table table-striped">
+                                        <thead class="bg-light">
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">نوع</th>
+                                            <th scope="col">کد ووچر</th>
+                                            <th scope="col">وضعیت</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for orders in order_sell %}
+                                            <tr>
+                                                <th scope="row">{{ forloop.counter }}</th>
+                                                <td>فروش</td>
+                                                <td>{{ orders.voucher_code }}</td>
+                                                <td>
+                                                    {% if orders.paid %}
+                                                        <span>موفق</span>
+                                                    {% else %}
+                                                        <span>نا موفق</span>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!---- end buy sell history-------->
+
+                <div class="row" id="d-dashboard">
+                    <div class="col-12">
+                        <div class="card text-dark shadow-sm mb-3">
+                            <div class="card-body">
+                                <div class="d-flex flex-column justify-content-center">
+                                    <div class="d-flex justify-content-center py-4">
+                                        <img src="{{ profile.image.url }}" class="img-fluid img-circle mt-4" height="150px" width="150px" alt="">
+                                        <form id="profile_img_from" method="post" enctype="multipart/form-data" action="{% url 'account:profile_image_upload' %}">
+                                            {% csrf_token %}
+                                            <label for="profile_img">
+                                                <i class="bi bi-camera-fill h2 text-dark" style="position: absolute;"></i>
+                                            </label>
+                                            <input type="file" id="profile_img" hidden name="image">
+                                        </form>
+                                    </div>
+                                    <div class="d-flex justify-content-center pb-4">
+                                        <span class="fw-bold text-dark">{{ profile.name }} {{ profile.last_name }}</span>
+                                    </div>
+                                    <div class="btn-group" role="group" aria-label="Basic radio
+                  toggle button group">
+                                        <input type="radio" class="btn-check" name="btnradio"
+                                               id="btnradio1" autocomplete="off" checked data-bs-toggle="collapse"
+                                               data-bs-target="#account-inf">
+                                        <label class="btn btn-outline-warning" for="btnradio1">حساب
+                                            کاربری</label>
+                                        <input type="radio" class="btn-check" name="btnradio"
+                                               id="btnradio3" autocomplete="off" data-bs-toggle="collapse"
+                                               data-bs-target="#ehraz">
+                                        <label class="btn btn-outline-success" for="btnradio3">احراز
+                                            هویت</label>
+                                        <input type="radio" class="btn-check" name="btnradio"
+                                               id="btnradio2" autocomplete="off" data-bs-toggle="collapse"
+                                               data-bs-target="#mobile">
+                                        <label class="btn btn-outline-danger" for="btnradio2">ثبت شماره همراه</label>
+                                    </div>
+                                </div>
+
+                                <div class="collapse show" id="account-inf">
+                                    <div class="table-responsive m-4 d-md-flex d-none">
+                                        <table class="table table-borderless text-center">
+                                            <thead class="bg-light">
+                                            <tr>
+                                                <th scope="col">نام کاربری</th>
+                                                <th scope="col">ایمیل</th>
+                                                <th scope="col">شماره همراه</th>
+                                                <th scope="col">شماره شبا</th>
+                                                <th scope="col">شماره کارت</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>{{ profile.user.username }}</td>
+                                                <td>{{ profile.user.email }}</td>
+                                                <td>{{ profile.phone }}</td>
+                                                <td>{{ profile.shaba_num }}</td>
+                                                <td>{{ profile.bank_card_num }}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="d-md-none d-flex flex-column py-3 w-100" id="ehraz-responsiv">
+                                        <ul class="list-unstyled text-center">
+                                            <li>
+                                                <label for="name_field" class="form-label">نام</label>
+                                                <input id="name_field" class="form-control text-center mb-3" type="text"
+                                                       value="{{ profile.name }}">
+                                            </li>
+                                            <li>
+                                                <label for="l_name_field" class="form-label">نام خانوادگی</label>
+                                                <input id="l_name_field" class="form-control text-center mb-3"
+                                                       type="text"
+                                                       value="{{ profile.last_name }}">
+                                            </li>
+                                            <li>
+                                                <label for="email_field" class="form-label">ایمیل</label>
+                                                <input id="email_field" class="form-control text-center mb-3"
+                                                       type="text"
+                                                       value="{{ profile.user.email }}">
+                                            </li>
+                                            <li>
+                                                <label for="phone_field" class="form-label">شماره همراه</label>
+                                                <input id="phone_field" class="form-control text-center mb-3"
+                                                       type="text"
+                                                       value="{{ profile.phone }}">
+                                            </li>
+                                            <li>
+                                                <label for="shaba_field" class="form-label">شماره شبا</label>
+                                                <input id="shaba_field" class="form-control text-center mb-3"
+                                                       type="text"
+                                                       value="{{ profile.shaba_num }}">
+                                            </li>
+                                            <li>
+                                                <label for="card_field" class="form-label">شماره کارت</label>
+                                                <input id="card_field" class="form-control text-center mb-3" type="text"
+                                                       value="{{ profile.bank_card_num }}">
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        <button type="button" class="btn text-white" data-bs-toggle="modal"
+                                                data-bs-target="#infor-modal"
+                                                style="border-radius: 10px; background-color: #9DAAF2;">ویرایش اطلاعات
+                                        </button>
+                                    </div>
+                                    <!-----modal--->
+                                    <div class="modal fade" id="infor-modal" tabindex="-1"
+                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header text-white">
+                                                    <h5 class="modal-title" id="exampleModalLabel">ویرایش اطلاعات</h5>
+                                                    <button type="button" class="btn-close waves-effect btn-close-white"
+                                                            data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                </div>
+                                                <form method="post" id="user-profile-update-form"
+                                                      action="{% url 'account:user_profile_update' %}">
+
+                                                    {% csrf_token %}
+                                                    <div class="modal-body">
+                                                        <div class="mb-3">
+                                                            <label for="name-e"
+                                                                   class="col-form-label">نام:</label>
+                                                            <input type="text" class="form-control"
+                                                                   id="name-e" name="name"
+                                                                   placeholder="{{ profile.name }}"
+                                                                   value="{% if profile.name %}{{ profile.name }}{% else %}{% endif %}">
+                                                        </div>
+
+                                                        <div class="mb-3">
+                                                            <label for="lastname-e"
+                                                                   class="col-form-label">نام
+                                                                خانوادگی:</label>
+                                                            <input type="text" class="form-control"
+                                                                   id="lastname-e" name="last_name"
+                                                                   placeholder="{{ profile.last_name }}"
+                                                                   value="{% if profile.last_name %}{{ profile.last_name }}{% else %}{% endif %}">
+                                                        </div>
+
+                                                        <div class="mb-3">
+                                                            <label for="card-e"
+                                                                   class="col-form-label">شماره
+                                                                کارت:</label>
+                                                            <input type="text" class="form-control"
+                                                                   id="card-e"
+                                                                   name="bank_card_num"
+                                                                   placeholder="{{ profile.bank_card_num }}"
+                                                                   value="{% if profile.bank_card_num %}{{ profile.bank_card_num }}{% else %}{% endif %}">
+                                                        </div>
+
+                                                        <div class="mb-3">
+                                                            <label for="shaba-e"
+                                                                   class="col-form-label">شماره
+                                                                شبا:</label>
+                                                            <input type="text" class="form-control"
+                                                                   id="shaba-e" name="shaba_num"
+                                                                   placeholder="{{ profile.shaba_num }}"
+                                                                   value="{% if profile.shaba_num %}{{ profile.shaba_num }}{% else %}{% endif %}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn"
+                                                                data-bs-dismiss="modal"
+                                                                style="border-radius: 10px; border: solid #FF6A3D;">
+                                                            بستن
+                                                        </button>
+                                                        <button type="button" id="profile-update-btn" class="btn"
+                                                                style="border-radius: 10px; border: solid #9DAAF2;">ثبت
+                                                            تغییرات
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-----modal--->
+                                    <div class="d-flex justify-content-center mt-3">
+                                        <button class="btn text-white" type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#lows-div" aria-expanded="false"
+                                                aria-controls="lows-div"
+                                                style="border-radius: 10px; background-color: #9DAAF2;">مشاهده قوانین
+                                        </button>
+                                    </div>
+                                    <div class="collapse" id="lows-div">
+                                        <ul class="list-unstyled">
+                                            <li>
+                                                <span class="text-danger">توضیحات مهم:</span>
+                                            </li>
+                                            <ul>
+                                                <li>حتما کارت بانکی که استفاده میکنید به نام خودتان باشد</li>
+                                                <li>در صورت عدم تطبیق نام شما و کارت بانکی کلیه پرداخت های شما لغو
+                                                    خواهد
+                                                    شد
+                                                </li>
+                                                <li>در درج اطلاعات شخصی نهایت دقت را به داشته باشید</li>
+                                                <li>هرگونه سو استفاده از کد ووچر بر عهده خود کاربر میباشد</li>
+                                            </ul>
+                                        </ul>
+                                    </div>
+
+                                </div>
+
+                                <!------- EHRAZ ------>
+                                <div class="collapse" id="ehraz">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12 p-4 d-flex justify-content-center">
+                                            <div class="card" style="border-radius: 25px; width: 400px">
+                                                <div class="card-body text-center">
+                                                    <img src="/media/profile/ehraz1.jpg" class="img-fluid" alt="">
+                                                    <form id="id-card-form" method="post" enctype="multipart/form-data"
+                                                          action="{% url 'account:id_card_upload' %}">
+                                                        {% csrf_token %}
+                                                        <label for="files1" class="btn text-white"
+                                                               style="border-radius: 10px; background-color: #2c698d;">آپلود
+                                                            تصویر سلفی</label>
+                                                        <input id="files1" name="id_card" hidden type="file">
+                                                    </form>
+                                                    <span class="btn border-warning" style="border-radius: 10px;">
+                                                        {% if profile.id_card_status == 'to do' %}
+                                                            وضعیت: چیزی آپلود نشده
+                                                        {% elif profile.id_card_status == 'in_progress' %}
+                                                            وضعیت: درحال بررسی
+                                                        {% elif profile.id_card_status == 'ok' %}
+                                                            وضعیت: تایید شده
+                                                        {% elif profile.id_card_status == 'failed' %}
+                                                            وضعیت: رد شده
+                                                        {% endif %}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 p-4 d-flex justify-content-center">
+                                            <div class="card" style="border-radius: 25px; width: 400px">
+                                                <div class="card-body text-center">
+                                                    <img src="/media/profile/bill.jpg" class="img-fluid" alt="">
+                                                    <form id="bank-card-form" method="post"
+                                                          enctype="multipart/form-data"
+                                                          action="{% url 'account:bank_card_upload' %}">
+                                                        {% csrf_token %}
+                                                        <label for="files2" class="btn text-white"
+                                                               style="border-radius: 10px; background-color: #2c698d;">آپلود
+                                                            قبض آب</label>
+                                                        <input id="files2" name="bank_card_pic" hidden type="file">
+                                                    </form>
+                                                    <span class="btn border-warning" style="border-radius: 10px;">
+                                                        {% if profile.bank_card_pic_status == 'to do' %}
+                                                            وضعیت: چیزی آپلود نشده
+                                                        {% elif profile.bank_card_pic_status == 'in_progress' %}
+                                                            وضعیت: درحال بررسی
+                                                        {% elif profile.bank_card_pic_status == 'ok' %}
+                                                            وضعیت: تایید شده
+                                                        {% elif profile.bank_card_pic_status == 'failed' %}
+                                                            وضعیت: رد شده
+                                                        {% endif %}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--------mobile verify--->
+                                <div class="collapse" id="mobile">
+                                    <div class="d-flex justify-content-center mt-4 pt-4">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-------------End dashboard ------------->
+                <!------------- buy and sell------------>
+                <div class="row" id="form-buy-sell">
+                    <div class="col-md-12">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12 col-md-6 d-flex justify-content-center" id="d-buysell">
+                                        <div class="mt-5 mb-5 d-flex justify-content-end">
+                                            <div class="card px-1 py-4">
+                                                <form method="post" action="{% url 'order:buy_order' %}" id="shop_form">
+                                                    {% csrf_token %}
+                                                    <div class="card-body" style="border: none">
+                                                        <div class="d-flex flex-row">
+                                                            <label class="radio me-2">
+                                                                <input id="buy-radio" type="radio" name="add"
+                                                                       value="anz"
+                                                                       checked>
+                                                                <span> <i class="fa fa-shopping-cart"></i>
+                        <strong class="ms-2">خرید</strong>
+                        </span>
+                                                            </label>
+                                                            <label class="radio ms-2">
+                                                                <input id="sell-radio" type="radio" name="add"
+                                                                       value="add">
+                                                                <span> <i class="fa fa-money"></i>
+                        <strong class="ms-2">فروش</strong>
+                        </span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <div class="form-group">
+                                                                    <!-- <label for="name">Name</label> -->
+                                                                    <div class="input-group">
+                                                            <span id="p-h"
+                                                                  class="input-group-text text-dark me-2"
+                                                                  style="background-color: #F4DB7D; border-radius: 10px; border: none;">قیمت یک واحد ووچر</span>
+                                                                        <input type="number"
+                                                                               class="form-control bg-white"
+                                                                               id="dollar-price" name="dollar_price"
+                                                                               aria-label="Sizing example input"
+                                                                               aria-describedby="inputGroup-sizing-sm"
+                                                                               value="{{ dollar_price }}" readonly>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <div class="form-group">
+                                                                    <div class="input-group"><input id="v-count"
+                                                                                                    name="quantity"
+                                                                                                    class="form-control"
+                                                                                                    type="number"
+                                                                                                    placeholder="تعداد ووچر"
+                                                                                                    min="1"
+                                                                                                    style="direction: rtl">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <div class="form-group">
+                                                                    <div class="input-group"><input id="code-v"
+                                                                                                    name="voucher_code"
+                                                                                                    class="form-control"
+                                                                                                    type="text"
+                                                                                                    placeholder="کد ووچر"
+                                                                                                    style="display: none;">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <div class="form-group">
+                                                                    <div class="input-group"><input id="a-code"
+                                                                                                    name="activate_code"
+                                                                                                    class="form-control"
+                                                                                                    type="text"
+                                                                                                    placeholder="کد فعال سازی"
+                                                                                                    style="display: none;">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="row" id="total-price">
+                                                            <div class="col-sm-12">
+                                                                <div class="form-group">
+                                                                    <div class="input-group">
+                                                            <span id="p-h"
+                                                                  class="input-group-text text-dark me-2"
+                                                                  style="background-color: #F4DB7D; border-radius: 10px; border: none;">مبلغ کل (تومان)</span>
+                                                                        <input id="t-num" type="number"
+                                                                               class="form-control bg-white"
+                                                                               aria-label="Sizing example input"
+                                                                               aria-describedby="inputGroup-sizing-sm"
+                                                                               value="32500"
+                                                                               readonly>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class=" d-flex flex-column text-center px-5 mt-3 mb-3">
+                                                            <strong
+                                                                    class="agree-text">
+                                                                لطفا در پر کردن فیلد ها نهایت دقت را داشته
+                                                                باشید</strong></div>
+                                                        <div class=" d-flex justify-content-center">
+                                                            <button type="submit"
+                                                                    class="btn btn-block text-white confirm-button"
+                                                                    style="background-color: #9DAAF2;">
+                                                                ثبت سفارش
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 d-flex align-items-center">
+                                        <canvas id="acquisitions" style="width:100%;max-width:700px"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!------------- buy and sell End------------>
+                <!---------ticket ---------->
+                <div class="card mt-4 p-4 shadow-sm" id="ticket-show-div" style="display: none;">
+                    <div class="row card-body" style="border: none;">
+                        <table id="ticket_table" class="table table-striped" style="width:100%">
+                            <thead class="text-center">
+                            <tr>
+                                <th scope="col">تعداد</th>
+                                <th scope="col">متن تیکت</th>
+                                <th scope="col">وضعیت</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for tickets in ticket %}
+
+                                <tr>
+                                    <th scope="row">
+                                        {{ forloop.counter }}
+                                    </th>
+                                    <td id="ticket-text">
+                                        <a class="text-dark"
+                                           style="text-decoration: none;" data-bs-toggle="modal"
+                                           data-bs-target="#ticket-body{{ forloop.counter }}"><span
+                                                style="cursor: pointer;">{{ tickets.body }}</span></a>
+
+                                        <!-- Scrollable modal -->
+                                        <div class="modal fade" id="ticket-body{{ forloop.counter }}" tabindex="-1"
+                                             aria-labelledby="exampleModalLabel{{ forloop.counter }}"
+                                             aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title text-white"
+                                                            id="exampleModalLabel{{ forloop.counter }}">
+                                                            تیکت</h5>
+                                                        <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div id="m-text">
+                                                            <p class="text-wrap">
+                                                                {{ tickets.body }}
+                                                            </p>
+                                                            <hr>
+                                                            <p class="text-wrap bg-light">
+                                                                {{ tickets.rep.get.rep_body }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {% if tickets.status == 'To Do' %}
+                                            <span class="fw-bold text-info">در حال پاسخگویی</span>
+                                        {% elif tickets.status == 'Done' %}
+                                            <span class="fw-bold text-success">پاسخ داده شد</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div>
+                    <canvas id="acquisitions"></canvas>
+                </div>
+
+                <!---------End ticket ---------->
+            </div>
+            <!----------------End Main content-->
+        </div>
+    </div>
+    {% block script %}
+        <script src="{% static 'account/js/profile_script.js' %}"></script>
+        <script src="{% static 'account/js/form.js' %}"></script>
+        <script src="{% static 'account/js/ajax_code.js' %}"></script>
+        <script src="{% static 'account/js/paginator_ajax.js' %}"></script>
+        <script src="{% static 'account/js/notification_ajax.js' %}"></script>
+
+        <script>
+            (async function () {
+                const data = [
+                    {% for charts in chart %}
+                        {year: "{{ forloop.counter }}", count: {{charts.price_history}}},
+                    {% endfor %}
+                ];
+                const data2 = [
+                    {
+                        year: "1", count: 26503
+                    },
+                    {
+                        year: "2", count: 28741
+                    },
+                    {
+                        year: "3", count: 36458
+                    },
+                    {
+                        year: "4", count: 33658
+                    },
+                    {
+                        year: "5", count: 38789
+                    },
+                    {
+                        year: "6", count: 34896
+                    }
+                ]
+
+                new Chart(
+                    document.getElementById('acquisitions'),
+                    {
+                        type: 'line',
+                        data: {
+                            labels: data.map(row => row.year),
+                            datasets: [
+                                {
+                                    label: 'قیمت لحظه ای دلار',
+                                    data: data.map(row => row.count),
+                                    borderColor: '#58b368',
+                                },
+                                {
+                                    label: 'قیمت لحظه ای دلار',
+                                    data: data2.map(row => row.count),
+                                    borderColor: '#FF6A3D',
+                                }
+                            ]
+                        }
+                    }
+                );
+            })
+            ();
+        </script>
+        <script>
+            $(document).ready(function () {
+                const DataTableSettings = {
+                    "info": false,
+                    "lengthChange": false,
+                    responsive: true,
+                    "language": {
+                        "search": "جستجو: ",
+                    },
+                    columnDefs: [
+                        { className: "dt-center", "targets": "_all" }
+                    ]
+                }
+                $('#buy_table').DataTable(DataTableSettings);
+                $('#sell_table').DataTable(DataTableSettings);
+                $('#ticket_table').DataTable(DataTableSettings);
+                $('#voucherWalletDataTable').DataTable(DataTableSettings);
+                $('.dataTables_filter').addClass('float-end mb-2');
+            });</script>
+    {% endblock %}
+{% endblock %}

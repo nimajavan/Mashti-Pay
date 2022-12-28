@@ -1,0 +1,38 @@
+{% extends 'base_profile.html' %}
+{% load static %}
+{% block third_css %}
+{% endblock %}
+{% block body %}
+    <div style="padding-bottom: 150px; padding-top: 50px; height: 100vh; background-image: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);">
+        <div class="container">
+            <div class="card">
+                <div class="card-header text-center">
+                    <span>تصویه حساب</span>
+                </div>
+                <div class="card-body">
+                    <div>
+                        <ul class="list-unstyled text-center">
+                            <li class="mb-3">
+                                <span>تعداد ووچر: </span><span>{{ order.quantity }}</span>
+                            </li>
+                            <li class="mb-3">
+                                <span class="fw-bold">قیمت پایانی: </span><span class="fw-bold">{{ order.total_price }}</span><span> تومان</span>
+                            </li>
+                            <li class="mb-3">
+                                <a href="{% url 'payment' order_id %}">
+                                    <button class="btn btn-success">پرداخت</button>
+                                </a>
+                            </li>
+                            <li class="mb-3">
+                                <a href="{% url 'account:profile' %}">
+                                    <button class="btn btn-danger">انصراف و بازگشت به داشبورد</button>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

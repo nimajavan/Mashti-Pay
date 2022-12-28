@@ -1,0 +1,29 @@
+{% extends 'base_profile.html' %}
+{% load static %}
+{% block third_css %}
+    <link rel="stylesheet" href="{% static 'account/css/profile.css' %}">
+{% endblock %}
+{% block body %}
+    <div class="container py-4">
+        <div class="card">
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">موضوع</label>
+                        <input type="text" class="form-control" name="title" id="exampleFormControlInput1"
+                               placeholder="موضوع تیکت"
+                               style="direction: rtl">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label">متن تیکت</label>
+                        <textarea class="form-control" name="body" id="exampleFormControlTextarea1" rows="8"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-warning" style="border-radius: 15px;">ثبت تیکت</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

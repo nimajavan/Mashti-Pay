@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block third_css %}
+    <link rel="stylesheet" href="{% static 'product/css/home.css' %}">
+{% endblock third_css %}
+{% block body %}
+    <div class="container" style="height: 100vh;">
+        <div class="d-flex flex-column text-center py-5">
+            <div class="row d-flex align-items-center mt-4">
+                <div class="col-md-6 col-12">
+                    <h1 class="display-5 fw-bold mb-3 text-white">آماده باشه خیالت راحت!</h1>
+                    <p class="text-white lead mb-2">خدمات خرید و فروش <strong class="text-danger fw-bold">پرفکت
+                        مانی</strong></p>
+                    <p class="text-white lead mb-2">با عضویت در سایت از کلیه خدمات ما بهره مند شوید</p>
+                    <div class="justify-content-center mt-4">
+                        <a href="{% url 'account:register' %}" style="text-decoration-line: none;">
+                            <button class="btn btn-outline-warning text-white fw-bold"
+                                    style="width: 100px; border-radius: 25px;">عضویت
+                            </button>
+                        </a>
+                        {% if not user.is_authenticated %}
+                            <a href="{% url 'account:login' %}" style="text-decoration-line: none;">
+                                <button class="btn btn-outline-success text-white fw-bold"
+                                        style="width: 100px; border-radius: 25px;">ورود
+                                </button>
+                            </a>
+                        {% elif user.is_authenticated %}
+                            <a href="{% url 'account:logout' %}" style="text-decoration-line: none;">
+                                <button class="btn btn-outline-danger text-white fw-bold"
+                                        style="width: 100px; border-radius: 25px;">خروج
+                                </button>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-6 col-12">
+                    <img src="/media/home/mashtipay.svg" class="img-fluid" id="home-img" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="py-5" id="comment-div">
+        <div class="container my-2">
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                    <p class="display-4 fw-bold"><span>  مشتی </span><span class="text-danger">پی</span></p>
+                </div>
+                <div class="col-12">
+                    <h4 class="py-4 text-center lead">
+                        خرید و فروش ارزهای الکترونیک رو امروزه همه انجام میدن ولی ما فقط خرید و فروش انجام نمی دیم! ما هدفمون اینه که هیچ ایرانی ای به دلیل تحریم ها و محدودیت ها بدون دسترسی نمونه.
+                        برای این هم
+                        هر کاری از دستمون بر بیاد می کنیم. نوکرتون هم هستیم!
+                    </h4>
+                </div>
+                <div class="row my-3 g-4">
+                    <div class="col-md-4 col-12">
+                        <div class="card border-0">
+                            <img src="/media/home/Startup_Monochromatic.svg" class="card-img-top p-4" alt="">
+
+                            <div class="card-body">
+                                <h5 class="card-title text-center">
+                                    تحویل پلنگی
+                                </h5>
+                                <p class="card-text text-center">
+                                    مثل شیر پشتتون هستیم ولی مثل پلنگ هرچی خریدی رو سریع تحویل می دیم!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <div class="card border-0">
+                            <img src="/media/home/Piggy%20bank_Monochromatic.svg" class="card-img-top p-4" alt="">
+                            <div class="card-body">
+                                <h5 class="card-title text-center">
+                                    مرام مشتی
+                                </h5>
+                                <p class="card-text text-center">
+                                    کارمزد خرید اول رو مهمون ما هستی رفیق
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <div class="card border-0">
+                            <img src="/media/home/IT%20Support_Monochromatic.svg" class="card-img-top p-4" alt="">
+                            <div class="card-body">
+                                <h5 class="card-title text-center">
+                                    پشتیبانی زنگی
+                                </h5>
+                                <p class="card-text text-center">
+                                    هر مشکلی داشتی زنگ بزن یا تیکت ارسال کن , سه سوته حلش می کنیم
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <section class="container-fluid" style="margin-top: 100px;">
+            <h2 class="text-center">نظر کاربران</h2>
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 m-auto text-center">
+                        <div class="owl-carousel owl-theme owl-loaded owl-drag">
+                            {% for comment in comments %}
+                                <div class="card text-dark mb-3 border-0 shadow-sm"
+                                     style="max-width: 18rem; height:200px; direction: rtl; border-radius: 10px;">
+                                    <div class="card-header bg-white">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <img src="/media/profile/avatar/Call%20Center%20Agent_Flat.svg" style="width: 80px; height: 80px; "
+                                                     class="img-fluid" alt="">
+                                            </div>
+                                            <div class="col-6 d-flex align-items-center">
+                                                <p>{{ comment.name }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="card-text text-wrap text-muted">{{ comment.body }}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="container-fluid bg-white">
+            <div class="container" style="margin-top: 100px; margin-bottom: 100px;">
+                <h2 class="text-center mb-4">پرسش های متداول</h2>
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <img src="/media/home/Notifications_Monochromatic.svg" class="img-fluid" style="width: 400px; height: 400px;"
+                             alt="">
+                    </div>
+                    <div class="col-md-6 col-12 d-flex align-items-center">
+                        <div class="accordion accordion-flush" id="accordionFlushExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-headingOne">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                            aria-controls="flush-collapseOne">
+                                        نحوه خرید از ما به چه صورت است
+                                    </button>
+                                </h2>
+                                <div id="flush-collapseOne" class="accordion-collapse collapse show"
+                                     aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet doloribus ducimus
+                                        fugiat illo ipsum laboriosam molestiae necessitatibus, nihil odit reiciendis tenetur
+                                        ullam, ut voluptate! Blanditiis debitis id iste quas quasi!
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-headingTwo">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#flush-collapseTwo" aria-expanded="false"
+                                            aria-controls="flush-collapseTwo">
+                                        کارمزد ها به چه صورت محاسبه می شود؟
+                                    </button>
+                                </h2>
+                                <div id="flush-collapseTwo" class="accordion-collapse collapse"
+                                     aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab aut culpa cumque dolor
+                                        enim harum iste minus molestias necessitatibus non officia perferendis quia
+                                        quibusdam quisquam repellat repudiandae similique tempora, temporibus?
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-headingThree">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#flush-collapseThree" aria-expanded="false"
+                                            aria-controls="flush-collapseThree">
+                                        آشنایی با قوانین سایت
+                                    </button>
+                                </h2>
+                                <div id="flush-collapseThree" class="accordion-collapse collapse"
+                                     aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus amet
+                                        architecto assumenda blanditiis debitis deleniti, illo maxime modi neque nobis
+                                        nostrum optio placeat quia quod sequi totam vel, voluptatum?
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <canvas class="background"></canvas>
+{% endblock body %}

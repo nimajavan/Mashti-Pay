@@ -1,0 +1,7 @@
+{
+  "name": "django_PM",
+  "version": "1.0.0",
+  "dependencies": {
+    "sweetalert": "^2.1.2"
+  }
+}

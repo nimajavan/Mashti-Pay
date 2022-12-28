@@ -1,0 +1,36 @@
+{% extends 'base_profile.html' %}
+{% load static %}
+{% block third_css %}
+{% endblock %}
+{% block body %}
+    <div class="container" style="padding-bottom: 150px; height: 100vh;">
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="text-center">
+                            <span class="fw-bold text-success">پرداخت با موفقیت انجام شد</span>
+                        </div>
+                        <div class="col-12 mt-4">
+                            <div class="text-center">
+                                کد پیگیری: <span>{{ tc }}</span>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-4">
+                            <div class="text-center">
+                                کد ووچر شما ظرف مدت 10 دقیقه صادر خواهد شد و از قسمت کیف ووچر قابل مشاهده خواهد بود
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="text-center">
+                                <a href="{% url 'account:profile' %}" style="text-decoration-line: none;">
+                                    <button type="button" class="btn btn-success mt-4">رفتن به داشبورد</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

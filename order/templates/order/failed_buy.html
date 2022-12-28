@@ -1,0 +1,37 @@
+{% extends 'base_profile.html' %}
+{% load static %}
+{% block third_css %}
+    <link rel="stylesheet" href="{% static 'account/css/p.css' %}">
+{% endblock %}
+{% block body %}
+<div class="container py-4 mt-5">
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="text-center">
+                            <span class="fw-bold text-danger">پرداخت ناموفق</span>
+                        </div>
+                        <div class="col-12 mt-4">
+                            <div class="text-center">
+                                کد پیگیری: <span>{{ tc }}</span>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-4">
+                            <div class="text-center">
+                                پرداخت شما ناموفق بود. در صورت کسر وجه مبلغ کسر شده طی مدت 42 ساعت به حساب شما برمیگردد
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="text-center">
+                                <a href="{% url 'account:profile' %}" style="text-decoration-line: none;">
+                                    <button type="button" class="btn btn-success mt-4">رفتن به داشبورد</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

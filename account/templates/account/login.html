@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block third_css %}
+    <link rel="stylesheet" href="{% static 'account/css/login.css' %}">
+{% endblock %}
+{% block body %}
+    <div style="padding-bottom: 150px;">
+        <section class="container">
+            <div class="card">
+                <div class="card-body text-center">
+                    {% include 'form_errors_temp.html' %}
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <div class="d-flex justify-content-center mb-5">
+                                <p class="display-4">خوش آمدید</p>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <div class="form-outline">
+                                        <input type="email" name="email" class="form-control mb-4 text-center"
+                                               placeholder="ایمیل">
+                                    </div>
+                                    <div class="form-outline">
+                                        <input type="password" name="password" class="form-control mb-4 text-center"
+                                               placeholder="پسورد">
+                                    </div>
+                                    <div class="form-outline mb-5">
+                                        <input type="checkbox" class="form-check-input" id="check">
+                                        <label class="form-check-label" for="check">مرا به خاطر بسپار</label>
+                                    </div>
+                                    <div class="form-outline">
+                                        <button type="submit" class="btn btn-success">ورود</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="d-flex justify-content-center mt-5">
+                                <p class="display-7"><span> حساب کاربری ندارید؟</span><span><a
+                                        href="{% url 'account:register' %}"> ثبت نام </a></span></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="/media/login/Authentication-rafiki.png" class="img-fluid" alt="">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}

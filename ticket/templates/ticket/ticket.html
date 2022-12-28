@@ -1,0 +1,72 @@
+{% extends 'base_profile.html' %}
+{% load static %}
+{% block third_css %}
+    <link rel="stylesheet" href="{% static 'account/css/profile.css' %}">
+{% endblock %}
+{% block body %}
+    <div class="py-4">
+        <div class="container">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-hover text-center">
+                        <thead>
+                        <tr>
+                            <th scope="col">ردیف</th>
+                            <th scope="col">تیکت</th>
+                            <th scope="col">وضعیت</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for tickets in ticket %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>
+                                    {% if tickets.status == 'Done' %}
+                                        <a class="text-truncate" href="{% url 'ticket:single_ticket' tickets.id %}"
+                                           style="text-decoration-line: none;">{{ tickets.body }}</a>
+                                    {% else %}
+                                        <p class="text-truncate">{{ tickets.body }}</p>
+                                    {% endif %}
+                                </td>
+                                <td>{% if tickets.status == 'To Do' %}
+                                    <span class="badge bg-info"><strong>در حال پاسخگویی</strong></span>
+                                {% elif tickets.status == 'Done' %}
+                                    <span class="badge bg-success"><strong>پاسخ داده شد</strong></span>
+                                {% endif %}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="d-flex justify-content-center">
+                        <nav aria-label="Page navigation example" style="direction: ltr">
+                            <ul class="pagination">
+                                {% if ticket.has_previous %}
+                                    <li class="page-item"><a class="page-link"
+                                                             href="?page={{ ticket.previous_page_number }}">Previous</a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link"
+                                                             href="?page={{ ticket.previous_page_number }}">{{ ticket.previous_page_number }}</a>
+                                    </li>
+                                {% endif %}
+
+                                <li class="page-item {% if page_num == page_num %} active{% endif %}"><a
+                                        class="page-link"
+                                        href="?page={{ ticket.number }}">{{ ticket.number }}</a>
+                                </li>
+                                {% if ticket.has_next %}
+                                    <li class="page-item"><a class="page-link"
+                                                             href="?page={{ ticket.next_page_number }}">{{ ticket.next_page_number }}</a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link"
+                                                             href="?page={{ ticket.next_page_number }}">Next</a>
+                                    </li>
+
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
